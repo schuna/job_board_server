@@ -1,0 +1,20 @@
+[
+  {
+    "id": "uogQAZnLcAlT6lMuNbpQg",
+    "email": "alice@facegle.io",
+    "password": "alice123",
+    "companyId": "pVbRRBQtMVw6lUAkj1k43"
+  },
+  {
+    "id": "i0Nn6qvicHP5DTuKTyaq0",
+    "email": "bob@goobook.co",
+    "password": "bob123",
+    "companyId": "wvdB54Gqbdp_NZTXK9Tue"
+  },
+  {
+    "id": "nULMbcPvPb1FzwpsPUyhX",
+    "email": "jiyong1972@gmail.com",
+    "password": "test1234",
+    "companyId": "wvdB54Gqbdp_NZTXK9Tue"
+  }
+]
