@@ -7,8 +7,8 @@ type Query {
 
 type Mutation {
     createJob(input: CreateJobInput!): Job
-    deleteJob(id: ID!): Job
-    updateJob(input: UpdateJobInput!): Job
+    deleteJob(id: ID!): Boolean!
+    updateJob(input: UpdateJobInput!): [Job]
     createUser(input: CreateUserInput!): User
 }
 

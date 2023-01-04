@@ -1,54 +1,80 @@
 // noinspection JSUnresolvedVariable
 
-import {Company, Job, User} from "./db.js";
+import {companyLoader, db} from "./db.js";
+import {nanoid} from "nanoid";
 
-function rejectIf(condition){
-    if(condition){
+function rejectIf(condition) {
+    if (condition) {
         throw new Error('Unauthorized');
     }
 }
 
 export const resolvers = {
-    Query: {
-        company: (_root, {id}) => Company.findById(id),
-        job: (_root, {id}) => Job.findById(id),
-        jobs: async () => Job.findAll(),
-        users: async () => User.findAll(),
-    },
-
-    Mutation: {
-        createJob: (_root, {input}, {user}) => {
-            rejectIf(!user);
-            return Job.create({...input, companyId: user.companyId });
+        Query: {
+            company: async (_root, {id}) => {
+                return db.select().from('companies').where('id', id).first();
+            },
+            job: async (_root, {id}) => {
+                return db.select().from('jobs').where('id', id).first();
+            },
+            jobs: async () => {
+                return db.select().from('jobs');
+            },
+            users: async () => {
+                return db.select().from('users');
+            },
         },
-        deleteJob: async (_root, {id}, {user}) => {
-            rejectIf(!user);
-            const job = await Job.findById(id);
-            rejectIf(user.companyId !== job.companyId);
-            return Job.delete(id)
-        },
-        updateJob: async (_root, {input}, {user}) => {
-            rejectIf(!user);
-            const job = await Job.findById(input.id);
-            rejectIf(user.companyId !== job.companyId);
-            return Job.update({...input, companyId: user.companyId })
-        },
-        createUser: (_root, {input}) => User.create(input),
-    },
 
-    Company: {
-        jobs: (company) => Job.findAll((job) => job.companyId === company.id),
-    },
-
-    Job: {
-        company: (job) => {
-            return Company.findById(job.companyId);
+        Mutation: {
+            createJob: async (_root, {input}, {user}) => {
+                rejectIf(!user);
+                const job = {
+                    id: nanoid(),
+                    companyId: user.companyId,
+                    ...input,
+                };
+                await db.insert(job).into('jobs');
+                return job;
+            },
+            deleteJob: async (_root, {id}, {user}) => {
+                rejectIf(!user);
+                const job = await db.select().from('jobs').where('id', id).first();
+                rejectIf(job.companyId !== user.companyId);
+                return db.del().from('jobs').where('id', id);
+            },
+            updateJob: async (_root, {input}, {user}) => {
+                rejectIf(!user);
+                const job = await db.select().from('jobs').where('id', input.id).first();
+                rejectIf(user.companyId !== job.companyId);
+                return db.update({...input, companyId: user.companyId},
+                    ['id', 'title', 'companyId', 'description']).from('jobs').where('id', input.id);
+            },
+            createUser: async (_root, {input}) => {
+                const user = {
+                    id: nanoid(),
+                    ...input,
+                }
+                await db.insert(user).into('users');
+                return user;
+            },
         },
-    },
 
-    User: {
-        company: (user) => {
-            return Company.findById(user.companyId);
+        Company: {
+            jobs: async (company) => {
+                return db.select().from('jobs').where('companyId', company.id);
+            },
+        },
+
+        Job: {
+            company: async (job) => {
+                return await companyLoader.load(job.companyId);
+            },
+        },
+
+        User: {
+            company: async (user) => {
+                return db.select().from('companies').where('id', user.companyId).first();
+            },
         }
     }
-};
+;
