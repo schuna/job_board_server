@@ -1,6 +1,6 @@
 // noinspection JSUnresolvedVariable
 
-import {companyLoader, db} from "./db.js";
+import {db} from "./db.js";
 import {nanoid} from "nanoid";
 
 function rejectIf(condition) {
@@ -66,7 +66,7 @@ export const resolvers = {
         },
 
         Job: {
-            company: async (job) => {
+            company: async (job, _args, {companyLoader}) => {
                 return await companyLoader.load(job.companyId);
             },
         },
