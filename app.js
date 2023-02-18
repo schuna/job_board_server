@@ -30,7 +30,7 @@ app.post('/login', async (req, res) => {
     console.log(email);
     const user = await db.select().from('users').where('email', email).first();
     if (user && user.password === password) {
-        const token = jwt.sign({sub: user.id}, JWT_SECRET);
+        const token = jwt.sign({sub: user.email}, JWT_SECRET);
         res.json({token});
     } else {
         res.sendStatus(401);

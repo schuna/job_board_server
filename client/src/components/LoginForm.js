@@ -26,7 +26,7 @@ function LoginForm({ onLogin }) {
         <form onSubmit={handleSubmit}>
           <div className="field">
             <label className="label">
-              User ID
+              User Email
             </label>
             <div className="control">
               <input className="input" type="email" required
