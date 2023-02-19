@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import {gql} from '@apollo/client';
 
 export const MESSAGE_ADDED_SUBSCRIPTION = gql`
   subscription MessageAddedSubscription {
@@ -28,4 +28,13 @@ export const ADD_MESSAGE_MUTATION = gql`
       text
     }
   }
+`;
+
+export const ADD_USER_MUTATION = gql`
+    mutation createUserMutation($input: CreateUserInput!) {
+        user: createUser(input: $input ) {
+            id
+            email
+        }
+    }
 `;

@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { login } from '../auth';
+import {useNavigate} from "react-router";
 
 function LoginForm({ onLogin }) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
@@ -15,6 +17,7 @@ function LoginForm({ onLogin }) {
     } else {
       setError(true);
     }
+    navigate(`/`);
   };
 
   return (
