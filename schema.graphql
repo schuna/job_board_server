@@ -1,6 +1,10 @@
 type Query {
     users: [User!]
     messages: [Message!]
+    products: [Product!]
+    categories: [Category!]
+    product(id: ID!): Product
+    category(id: ID!): Category
 }
 
 type Mutation {
@@ -24,6 +28,24 @@ type Message {
     from: String!
     text: String!
 }
+
+type Product {
+    id: ID!
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    image: String!
+    onSale: Boolean
+    category: Category
+}
+
+type Category {
+    id: ID!
+    name: String!
+    products: [Product!]!
+}
+
 input CreateUserInput {
     email: String!,
     password: String!

@@ -25,7 +25,7 @@ function App() {
                 <Routes>
                     <Route exact path="/signup"
                            element={<SignUpForm/>}/>
-                    <Route exact path="/"
+                    <Route exact path="/home"
                            element={<Chat user={user}/>}/>
                     <Route exact path="/login"
                            element={<LoginForm onLogin={setUser}/>}/>

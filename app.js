@@ -10,7 +10,7 @@ import {createServer as createHttpServer} from 'http';
 import jwt from 'jsonwebtoken';
 import {WebSocketServer} from 'ws';
 import {db} from './db.js';
-import {resolvers} from "./resolvers.js";
+import {resolvers} from "./graphql/resolvers.js";
 
 const PORT = 9000;
 const JWT_SECRET = Buffer.from('eeb23d6a-8c7d-4c00-a8ca-f9b11d03fe3e', 'base64');
