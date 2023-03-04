@@ -1,6 +1,6 @@
 import {db} from "../db.js";
 
 export let category = {
-    products: (parent, args, context) => db.select().from('products').where(
-        'categoryId', parent.id),
+    products: ({id: categoryId}) => db.select().from('products').where(
+        'categoryId', categoryId),
 };
