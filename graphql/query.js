@@ -7,7 +7,14 @@ export let query = {
         rejectIf(!userId);
         return db.select().from('messages');
     },
-    products: async () => db.select().from('products'),
+    products: async (_root, {filter}, _context) => {
+        if(filter){
+            // noinspection JSUnresolvedVariable
+            return db.select().from('products').where('onSale', filter.onSale)
+        }else{
+            return db.select().from('products');
+        }
+    },
     categories: async () => db.select().from('categories'),
     product: async (_root, {id}) => db.select().from('products').where('id', id).first(),
     category: async (_root, {id}) => db.select().from('categories').where('id', id).first(),

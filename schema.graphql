@@ -1,10 +1,14 @@
 type Query {
-    users: [User!]
-    messages: [Message!]
-    products: [Product!]
-    categories: [Category!]
+    users: [User!]!
+    messages: [Message!]!
+    products(filter: ProductFilterInput): [Product!]!
+    categories: [Category!]!
     product(id: ID!): Product
     category(id: ID!): Category
+}
+
+input ProductFilterInput {
+    onSale: Boolean
 }
 
 type Mutation {
@@ -44,7 +48,7 @@ type Product {
 type Category {
     id: ID!
     name: String!
-    products: [Product!]!
+    products(filter: ProductFilterInput): [Product!]!
 }
 
 type Review {
