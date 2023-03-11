@@ -49,4 +49,5 @@ export let query = {
     categories: async () => db.select().from('categories'),
     product: async (_root, {id}) => db.select().from('products').where('id', id).first(),
     category: async (_root, {id}) => db.select().from('categories').where('id', id).first(),
+    reviews: async (_root) => db.select().from('reviews')
 };
