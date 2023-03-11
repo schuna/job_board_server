@@ -8,11 +8,42 @@ export let query = {
         return db.select().from('messages');
     },
     products: async (_root, {filter}, _context) => {
-        if(filter){
-            // noinspection JSUnresolvedVariable
-            return db.select().from('products').where('onSale', filter.onSale)
-        }else{
-            return db.select().from('products');
+        let filterProducts = await db.select().from('products').then((res) => {
+            console.log("json: ", JSON.stringify(res));
+            return res;
+        }).catch((err) => {
+            console.log("err", err);
+            return [];
+        });
+
+        console.log("filtered: ", filterProducts);
+        let reviews = await db.select().from('reviews');
+        if (filter) {
+            const {onSale, avgRating} = filter;
+            if (onSale) {
+                filterProducts = filterProducts.filter((product) => {
+                    return product.onSale;
+                });
+            }
+            if ([1, 2, 3, 4, 5].includes(avgRating)) {
+                filterProducts = filterProducts.filter((product) => {
+                    let sumRating = 0;
+                    let numberOfReviews = 0;
+                    reviews.forEach((review) => {
+                        if (review.productId === product.id) {
+                            console.log("product: ", product);
+                            console.log("review: ", review);
+                            sumRating += review.Rating;
+                            numberOfReviews++
+                        }
+                    })
+                    const avgProductReview = sumRating / numberOfReviews;
+                    return avgProductReview >= avgRating;
+                })
+            }
+            return filterProducts;
+        } else {
+            return filterProducts;
         }
     },
     categories: async () => db.select().from('categories'),

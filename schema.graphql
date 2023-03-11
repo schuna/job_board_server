@@ -9,6 +9,7 @@ type Query {
 
 input ProductFilterInput {
     onSale: Boolean
+    avgRating: Int
 }
 
 type Mutation {
