@@ -23,31 +23,20 @@ export let mutation = {
         await pubSub.publish('MESSAGE_ADDED', {messageAdded: message});
         return message;
     },
-    addCategory: async (_root, {input}, {userId}) => {
-        rejectIf(userId);
-        const category = {
-            id: nanoid(),
+    addExpense: async (_root, {input}, {userId}) => {
+        console.log(userId);
+        rejectIf(!userId);
+        const expense = {
             ...input
         }
-        await db.insert(category).into('categories')
-        return category
-    },
-    addProduct: async (_root, {input}, {userId}) => {
-        rejectIf(userId);
-        const product = {
-            id: nanoid(),
-            ...input
+        console.log(`expense: ` + expense);
+        let expenseId = await db.insert(expense).into('expenses')
+        if(expenseId){
+            return {
+                id: parseInt(expenseId),
+                ...input
+            }
         }
-        await db.insert(product).into('products')
-        return product;
-    },
-    addReview: async (_root, {input}, {userId}) => {
-        rejectIf(userId);
-        const review = {
-            id: nanoid(),
-            ...input
-        }
-        await db.insert(review).into('reviews')
-        return review;
+        return {};
     }
 };

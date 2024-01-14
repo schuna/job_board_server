@@ -1,24 +1,18 @@
 type Query {
     users: [User!]!
     messages: [Message!]!
-    products(filter: ProductFilterInput): [Product!]!
-    categories: [Category!]!
-    product(id: ID!): Product
-    category(id: ID!): Category
-    reviews: [Review!]!
+    expenses(filter: ExpenseFilterInput): [Expense!]!
+    expense(id: Int!): Expense
 }
 
-input ProductFilterInput {
-    onSale: Boolean
-    avgRating: Int
+input ExpenseFilterInput {
+    unit: String
 }
 
 type Mutation {
     createUser(input: CreateUserInput!): User
     addMessage(input: MessageInput!): Message
-    addCategory(input: AddCategoryInput!): Category!
-    addProduct(input: AddProductInput!): Product!
-    addReview(input: AddReviewInput!): Review!
+    addExpense(input: AddExpenseInput!): Expense!
 }
 
 
@@ -39,32 +33,13 @@ type Message {
     text: String!
 }
 
-type Product {
-    id: ID!
-    name: String!
+type Expense {
+    id: Int!
+    unit: String!
+    amount: Float!
     description: String!
-    quantity: Int!
-    price: Float!
-    image: String!
-    onSale: Boolean
-    category: Category
-    reviews: [Review!]!
 }
 
-type Category {
-    id: ID!
-    name: String!
-    products(filter: ProductFilterInput): [Product!]!
-}
-
-type Review {
-    id: ID!
-    date: String!
-    title: String!
-    Comment: String!
-    Rating: Int!
-    productId: ID!
-}
 
 input CreateUserInput {
     email: String!,
@@ -75,24 +50,9 @@ input MessageInput {
     text: String!
 }
 
-input AddCategoryInput {
-    name: String!
-}
 
-input AddProductInput {
-    name: String!
+input AddExpenseInput {
+    unit: String!
+    amount: Float!
     description: String!
-    quantity: Int!
-    price: Float!
-    image: String!
-    onSale: Boolean
-    categoryId: ID!
-}
-
-input AddReviewInput {
-    date: String!
-    title: String!
-    Comment: String!
-    Rating: Int!
-    productId: ID!
 }
