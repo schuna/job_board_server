@@ -1,9 +1,8 @@
-import DataLoader from "dataloader";
 import knex from "knex";
 import {config} from "dotenv";
 
 config();
-const {DB_HOST, DB_USER, DB_PASSWORD, DB_NAME} = process.env;
+const {DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PORT} = process.env;
 
 export const db = knex({
     client: 'mysql',
@@ -11,7 +10,8 @@ export const db = knex({
         host: DB_HOST,
         user: DB_USER,
         password: DB_PASSWORD,
-        database: DB_NAME
+        database: DB_NAME,
+        port: PORT
     },
     useNullAsDefault: true
 });
