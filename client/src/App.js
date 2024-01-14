@@ -7,6 +7,8 @@ import NavBar from './components/NavBar';
 import client from './graphql/client';
 import {Route, Routes} from "react-router-dom";
 import SignUpForm from "./components/SignUpForm";
+import Expense from "./components/Expense";
+
 
 function App() {
     const [user, setUser] = useState(getUser);
@@ -16,6 +18,7 @@ function App() {
         setUser(null);
     };
 
+    // noinspection JSValidateTypes
     return (
         <ApolloProvider client={client}>
             <header>
@@ -23,18 +26,19 @@ function App() {
             </header>
             <main>
                 <Routes>
+                    <Route exact path="/"
+                           element={Boolean(user) ? (
+                               <Expense user={user}/>
+                           ) : (
+                               <></>
+                           )}/>
                     <Route exact path="/signup"
                            element={<SignUpForm/>}/>
-                    <Route exact path="/home"
+                    <Route exact path="/chat"
                            element={<Chat user={user}/>}/>
                     <Route exact path="/login"
                            element={<LoginForm onLogin={setUser}/>}/>
                 </Routes>
-                {Boolean(user) ? (
-                    <Chat user={user}/>
-                ) : (
-                    <LoginForm onLogin={setUser}/>
-                )}
             </main>
         </ApolloProvider>
     );

@@ -26,42 +26,44 @@ function LoginForm({ onLogin }) {
         <h1 className="title">
           Login
         </h1>
-        <form onSubmit={handleSubmit}>
-          <div className="field">
-            <label className="label">
-              User Email
-            </label>
-            <div className="control">
-              <input className="input" type="email" required
-                value={email} onChange={(event) => setEmail(event.target.value)}
-              />
+        <div className="box">
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <label className="label">
+                User Email
+              </label>
+              <div className="control">
+                <input className="input" type="email" required
+                       value={email} onChange={(event) => setEmail(event.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <label className="label">
-              Password
-            </label>
-            <div className="control">
-              <input className="input" type="password" required
-                value={password} onChange={(event) => setPassword(event.target.value)}
-              />
+            <div className="field">
+              <label className="label">
+                Password
+              </label>
+              <div className="control">
+                <input className="input" type="password" required
+                       value={password} onChange={(event) => setPassword(event.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          {error && (
-            <div className="message is-danger">
-              <p className="message-body">
-                Login failed
-              </p>
+            {error && (
+                <div className="message is-danger">
+                  <p className="message-body">
+                    Login failed
+                  </p>
+                </div>
+            )}
+            <div className="field">
+              <div className="control">
+                <button type="submit" className="button is-link">
+                  Login
+                </button>
+              </div>
             </div>
-          )}
-          <div className="field">
-            <div className="control">
-              <button type="submit" className="button is-link">
-                Login
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </section>
   );

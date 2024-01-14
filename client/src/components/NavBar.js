@@ -9,17 +9,26 @@ function NavBar({user, onLogout}) {
                 </p>
             </div>
             <div className="navbar-start">
-                <Link className="navbar-item">
-                    Home
-                </Link>
-                <Link className="navbar-item" to="/login">
-                    Login
-                </Link>
-                <Link className="navbar-item" to="/signup">
-                    SignUp
-                </Link>
+
+                {!Boolean(user) && (
+                    <>
+                        <Link className="navbar-item" to="/login">
+                            Login
+                        </Link>
+                        <Link className="navbar-item" to="/signup">
+                            SignUp
+                        </Link>
+                    </>
+                )}
+
                 {Boolean(user) && (
                     <>
+                        <Link className="navbar-item" to="/">
+                            Home
+                        </Link>
+                        <Link className="navbar-item" to="/chat">
+                            Chat
+                        </Link>
                         <div className="navbar-item">
                             <button className="button is-ghost" onClick={onLogout}>
                                 Logout
